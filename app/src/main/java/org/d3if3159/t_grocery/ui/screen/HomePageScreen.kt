@@ -45,12 +45,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import org.d3if3159.t_grocery.R
 import org.d3if3159.t_grocery.model.Barang
+import org.d3if3159.t_grocery.navigation.Screen
 import org.d3if3159.t_grocery.ui.theme.TGroceryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomePageScreen(navHostController: NavHostController) {
-    val contex = LocalContext.current
+fun HomePageScreen(navController: NavHostController) {
     Scaffold (
         topBar = {
             TopAppBar(
@@ -84,12 +84,12 @@ fun HomePageScreen(navHostController: NavHostController) {
             )
         }
     ){padding ->
-        HomePageContent(Modifier.padding(padding))
+        HomePageContent(Modifier.padding(padding), navController)
     }
 }
 
 @Composable
-fun HomePageContent(modifier: Modifier){
+fun HomePageContent(modifier: Modifier, navController: NavHostController){
 
 //    val viewModel: MainViewModel = viewModel()
     val context = LocalContext.current
@@ -142,7 +142,7 @@ fun HomePageContent(modifier: Modifier){
         }
         Button(
             onClick = {
-                Toast.makeText(context, R.string.tambah_error, Toast.LENGTH_SHORT).show()
+                navController.navigate(Screen.FormBaru.route)
             },
             modifier = Modifier
                 .height(35.dp)
@@ -172,7 +172,7 @@ fun HomePageContent(modifier: Modifier){
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 40.dp)
                 .padding(top = 182.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -205,8 +205,7 @@ fun HomePageContent(modifier: Modifier){
         ) {
             items(data) {
                 ListItem(barang = it) {
-                    val pesan = context.getString(R.string.x_diklik, it.nama)
-                    Toast.makeText(context, pesan, Toast.LENGTH_SHORT).show()
+                    navController.navigate(Screen.FormEdit.withId(it.id))
                 }
             }
         }
