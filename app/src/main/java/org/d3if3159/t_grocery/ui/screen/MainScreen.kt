@@ -42,7 +42,7 @@ fun MainScreen() {
                         contentDescription = stringResource(id = R.string.logo),
                         modifier = Modifier
                             .padding(start = 16.dp)
-                            .size(100.dp)
+                            .size(120.dp)
                     )
                 },
                 title = {},
@@ -58,7 +58,7 @@ fun ScreenContent(modifier: Modifier) {
     Column (
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 33.dp, vertical = 40.dp)
+            .padding(horizontal = 30.dp, vertical = 45.dp)
     ) {
         Image(
             painter = painterResource(id = R.drawable.landing_page),
@@ -77,15 +77,44 @@ fun ScreenContent(modifier: Modifier) {
                     color = Color.Black
                 ),
                 modifier = Modifier
-                    .padding(top = 40.dp)
+                    .padding(top = 43.dp)
             )
             Text(
                 text = stringResource(id = R.string.deskripsi),
-                style = TextStyle(fontSize = 13.sp),
+                style = TextStyle(fontSize = 14.sp),
                 modifier = Modifier
-                    .padding(top = 20.dp)
+                    .padding(top = 15.dp)
                     .fillMaxWidth(),
                 textAlign = TextAlign.Center
+            )
+            Button(
+                onClick = { },
+                modifier = Modifier.padding(top = 43.dp).fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB11116))
+            )
+            {
+                Text(
+                    text = stringResource(id = R.string.btn_masuk),
+                    style = TextStyle(fontWeight = FontWeight.Bold)
+                )
+            }
+            Button(
+                onClick = { },
+                modifier = Modifier.fillMaxWidth(),
+                border = BorderStroke(width = 1.dp, color = Color(0xFFB11116)),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFFFFF)),
+            )
+            {
+                Text(
+                    text = stringResource(id = R.string.btn_daftar),
+                    style = TextStyle(fontWeight = FontWeight.Bold),
+                    color = Color(0xFFB11116)
+                )
+            }
+            Text(
+                text = stringResource(id = R.string.persetujuan),
+                style = TextStyle(fontSize = 12.sp),
+                modifier = Modifier.padding(top = 26.dp),
             )
         }
 
