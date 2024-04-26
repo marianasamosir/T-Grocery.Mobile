@@ -47,9 +47,13 @@ fun ScreenContent(modifier: Modifier) {
     Column (
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(horizontal = 33.dp, vertical = 40.dp)
     ) {
+        Image(
+            painter = painterResource(id = R.drawable.landing_page),
+            contentDescription = "Ini gambar landing page",
 
+        )
     }
 }
 
