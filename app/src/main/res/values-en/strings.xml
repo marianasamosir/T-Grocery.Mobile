@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">T-Grocery</string>
+    <string name="logo">Logos</string>
+    <string name="selamat_datang">Welcome to T-Grocery!</string>
+    <string name="deskripsi">Applications that make market owners\' lives more comfortable. Ready to help your business, anytime, anywhere.</string>
+    <string name="btn_masuk">Login</string>
+    <string name="btn_daftar">No account yet? Register first</string>
+    <string name="persetujuan">By logging in or registering, you agree to the Terms of service and Privacy policy.</string>
+</resources>

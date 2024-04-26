@@ -4,6 +4,6 @@
     <string name="selamat_datang">Selamat datang di T-Grocery!</string>
     <string name="deskripsi">Aplikasi yang buat hidup pemilik market lebih nyaman.\nSiap bantu usahamu, kapan pun, di mana pun.</string>
     <string name="btn_masuk">Masuk</string>
-    <string name="btn_daftar">Belum ada akun? Daftar dulu</string>
     <string name="persetujuan">Dengan masuk atau mendaftar, kamu menyetujui Ketentuan layanan dan Kebijakan privasi.</string>
+    <string name="btn_daftar">Belum ada akun? Daftar dulu</string>
 </resources>
