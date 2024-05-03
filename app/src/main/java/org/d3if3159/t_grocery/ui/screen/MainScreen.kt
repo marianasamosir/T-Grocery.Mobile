@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
@@ -26,13 +27,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import org.d3if3159.t_grocery.R
+import org.d3if3159.t_grocery.navigation.Screen
 import org.d3if3159.t_grocery.ui.theme.TGroceryTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(navController: NavHostController) {
     Scaffold (
         topBar = {
             TopAppBar(
@@ -49,12 +53,12 @@ fun MainScreen() {
             )
         }
     ){padding ->
-        ScreenContent(Modifier.padding(padding))
+        ScreenContent(Modifier.padding(padding), navController)
     }
 }
 
 @Composable
-fun ScreenContent(modifier: Modifier) {
+fun ScreenContent(modifier: Modifier, navController: NavHostController) {
     Column (
         modifier = modifier
             .fillMaxSize()
@@ -89,7 +93,10 @@ fun ScreenContent(modifier: Modifier) {
             )
             Button(
                 onClick = { },
-                modifier = Modifier.padding(top = 43.dp).fillMaxWidth(),
+                modifier = Modifier
+                    .padding(top = 43.dp)
+                    .height(45.dp)
+                    .fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB11116))
             )
             {
@@ -99,8 +106,8 @@ fun ScreenContent(modifier: Modifier) {
                 )
             }
             Button(
-                onClick = { },
-                modifier = Modifier.fillMaxWidth(),
+                onClick = { navController.navigate(Screen.Register.route) },
+                modifier = Modifier.padding(top = 10.dp).height(45.dp).fillMaxWidth(),
                 border = BorderStroke(width = 1.dp, color = Color(0xFFB11116)),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFFFFF)),
             )
@@ -127,6 +134,6 @@ fun ScreenContent(modifier: Modifier) {
 @Composable
 fun ScreenPreview() {
     TGroceryTheme {
-        MainScreen()
+        MainScreen(rememberNavController())
     }
 }

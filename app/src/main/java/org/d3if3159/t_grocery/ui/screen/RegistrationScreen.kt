@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,11 +12,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -39,23 +44,39 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import org.d3if3159.t_grocery.R
 import org.d3if3159.t_grocery.ui.theme.TGroceryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegistrationScreen() {
+fun RegistrationScreen(navController: NavHostController) {
     Scaffold (
         topBar = {
             TopAppBar(
                 navigationIcon = {
-                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                    Row (
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    ) {
+                        IconButton(onClick = {navController.popBackStack()}) {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowBack,
+                                contentDescription = stringResource(id = R.string.kembali),
+                                tint = Color(0xFFB11116),
+
+                            )
+                        }
                         Image(
                             painter = painterResource(id = R.drawable.logo_tgrocery),
                             contentDescription = stringResource(id = R.string.logo),
-                            modifier = Modifier.size(120.dp)
+                            modifier = Modifier
+                                .padding(start = 60.dp)
+                                .size(120.dp)
                         )
                     }
+
                 },
                 title = {},
             )
@@ -87,7 +108,7 @@ fun RegistrationContent(modifier: Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 30.dp, vertical = 45.dp)
+            .padding(horizontal = 30.dp, vertical = 30.dp)
     ) {
         Text(
             text = stringResource(id = R.string.selamat_datang),
@@ -106,22 +127,6 @@ fun RegistrationContent(modifier: Modifier) {
                 .fillMaxWidth(),
             textAlign = TextAlign.Center
         )
-//        Box(
-//            modifier = Modifier
-//                .padding(top = 43.dp)
-//                .border(1.dp, Color.Gray, RoundedCornerShape(50.dp))
-//                .height(45.dp)
-//        ) {
-//            marketList.forEach { text ->
-//                DropDown(
-//                    label = stringResource(id = R.string.pilih_mart),
-//                    isSelected = market == text,
-//                    modifier = Modifier.padding(start = 16.dp),
-//                    onItemSelected = { market = text }
-//                )
-//            }
-//
-//        }
         ExposedDropdownMenuBox(
             expanded = market,
             onExpandedChange = { market = !market },
@@ -264,30 +269,11 @@ fun RegistrationContent(modifier: Modifier) {
     }
 }
 
-//@Composable
-//fun DropDown(label: String, isSelected: Boolean, modifier: Modifier, onItemSelected: () -> Unit) {
-//    Box(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(top = 8.dp)
-//            .height(55.dp)
-//            .clickable(onClick = onItemSelected)
-//    ) {
-//        Text(
-//            text = label,
-//            style = MaterialTheme.typography.bodyLarge,
-//            modifier = Modifier.padding(start = 16.dp)
-//        )
-//        DropdownMenu(expanded = isSelected, onDismissRequest = {}) {
-//        }
-//    }
-//}
-
 @Preview(showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 fun RegistrationScreenPreview() {
     TGroceryTheme {
-        RegistrationScreen()
+        RegistrationScreen(rememberNavController())
     }
 }
