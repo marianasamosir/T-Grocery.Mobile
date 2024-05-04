@@ -2,7 +2,6 @@ package org.d3if3159.t_grocery.ui.screen
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
@@ -99,10 +99,19 @@ fun RegistrationContent(modifier: Modifier) {
     var market by rememberSaveable { mutableStateOf(false) }
     var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
 
+    //pilih mart itu gimana ya buat pesan eror klo belum di klik?
+
     var username by rememberSaveable { mutableStateOf("") }
+    var usernameError by rememberSaveable { mutableStateOf(false) }
+
     var email by rememberSaveable { mutableStateOf("") }
+    var emailEror by rememberSaveable { mutableStateOf(false) }
+
     var kataSandi by rememberSaveable { mutableStateOf("") }
+    var kataSandiError by rememberSaveable { mutableStateOf(false) }
+
     var konfirmasiKataSandi by rememberSaveable { mutableStateOf("") }
+    var konfirmasiKataSandiError by rememberSaveable { mutableStateOf(false) }
 
 
     Column(
@@ -176,6 +185,9 @@ fun RegistrationContent(modifier: Modifier) {
                     modifier = Modifier.padding(start = 16.dp)
                 )
             },
+            isError = usernameError,
+            trailingIcon = { IconPicker(usernameError, "")},
+            supportingText = { ErrorHint(usernameError)},
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -196,6 +208,9 @@ fun RegistrationContent(modifier: Modifier) {
                     modifier = Modifier.padding(start = 16.dp)
                 )
             },
+            isError = emailEror,
+            trailingIcon = { IconPicker(emailEror, "")},
+            supportingText = { ErrorHint(emailEror)},
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -216,6 +231,9 @@ fun RegistrationContent(modifier: Modifier) {
                     modifier = Modifier.padding(start = 16.dp)
                 )
             },
+            isError = kataSandiError,
+            trailingIcon = { IconPicker(kataSandiError, "")},
+            supportingText = { ErrorHint(kataSandiError)},
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -236,6 +254,9 @@ fun RegistrationContent(modifier: Modifier) {
                     modifier = Modifier.padding(start = 16.dp)
                 )
             },
+            isError = konfirmasiKataSandiError,
+            trailingIcon = { IconPicker(konfirmasiKataSandiError, "")},
+            supportingText = { ErrorHint(konfirmasiKataSandiError)},
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -248,7 +269,14 @@ fun RegistrationContent(modifier: Modifier) {
                 .height(55.dp)
         )
         Button(
-            onClick = { },
+            onClick = {
+                usernameError = (username == "" || username == "0")
+                emailEror = (email == "" || email == "0")
+                kataSandiError = (kataSandi == "" || kataSandi == "0")
+                konfirmasiKataSandiError = (konfirmasiKataSandi == "" || konfirmasiKataSandi == "0")
+                if (usernameError || emailEror || kataSandiError || konfirmasiKataSandiError)
+                    return@Button
+            },
             modifier = Modifier
                 .padding(top = 43.dp)
                 .fillMaxWidth()
@@ -266,6 +294,22 @@ fun RegistrationContent(modifier: Modifier) {
             style = TextStyle(fontSize = 12.sp),
             modifier = Modifier.padding(top = 16.dp),
         )
+    }
+}
+
+@Composable
+fun IconPicker(isError: Boolean, unit: String) {
+    if (isError) {
+        Icon(imageVector = Icons.Filled.Warning, contentDescription = null)
+    } else {
+        Text(text = unit)
+    }
+}
+
+@Composable
+fun ErrorHint(isError: Boolean) {
+    if (isError){
+        Text(text = stringResource(id = R.string.input_invalid))
     }
 }
 

@@ -18,4 +18,6 @@
     <string name="tmart_putra">T-MART PUTRA</string>
     <string name="tmart_putri">T-MART PUTRI</string>
     <string name="tjmart">TJ-MART</string>
+    <string name="input_invalid">Tidak boleh kosong.</string>
+    <string name="drop_invalid">Wajib pilih market.</string>
 </resources>
