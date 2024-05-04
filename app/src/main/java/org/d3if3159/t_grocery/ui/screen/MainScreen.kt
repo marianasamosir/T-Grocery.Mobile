@@ -92,11 +92,8 @@ fun ScreenContent(modifier: Modifier, navController: NavHostController) {
                 textAlign = TextAlign.Center
             )
             Button(
-                onClick = { },
-                modifier = Modifier
-                    .padding(top = 43.dp)
-                    .height(45.dp)
-                    .fillMaxWidth(),
+                onClick = { navController.navigate(Screen.Login.route) },
+                modifier = Modifier.padding(top = 43.dp).height(45.dp).fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB11116))
             )
             {
