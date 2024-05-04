@@ -21,4 +21,7 @@
     <string name="tjmart">TJ-MART</string>
     <string name="input_invalid">Can not be empty.</string>
     <string name="drop_invalid">Have to choose a market.</string>
+    <string name="keterangan_login_1">Please enter in a few easy steps</string>
+    <string name="keterangan_login_2">Don\'t have an account yet? Sign up now</string>
+    <string name="keterangan_login_3">I agree to the Terms of Service and Privacy Policy of T-Grocery</string>
 </resources>

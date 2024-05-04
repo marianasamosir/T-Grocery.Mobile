@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import org.d3if3159.t_grocery.ui.screen.LoginScreen
 import org.d3if3159.t_grocery.ui.screen.MainScreen
 import org.d3if3159.t_grocery.ui.screen.RegistrationScreen
 
@@ -19,6 +20,9 @@ fun SetupNavGraph(navController: NavHostController = rememberNavController()) {
         }
         composable(route = Screen.Register.route) {
             RegistrationScreen(navController)
+        }
+        composable(route = Screen.Login.route) {
+            LoginScreen(navController)
         }
     }
 }

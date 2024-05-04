@@ -77,8 +77,7 @@ fun ScreenContent(modifier: Modifier, navController: NavHostController) {
                 text = stringResource(id = R.string.selamat_datang),
                 style = TextStyle(
                     fontSize = 23.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
+                    fontWeight = FontWeight.Bold
                 ),
                 modifier = Modifier
                     .padding(top = 43.dp)
@@ -92,17 +91,16 @@ fun ScreenContent(modifier: Modifier, navController: NavHostController) {
                 textAlign = TextAlign.Center
             )
             Button(
-                onClick = { },
-                modifier = Modifier
-                    .padding(top = 43.dp)
-                    .height(45.dp)
-                    .fillMaxWidth(),
+                onClick = { navController.navigate(Screen.Login.route) },
+                modifier = Modifier.padding(top = 43.dp).height(45.dp).fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB11116))
             )
             {
                 Text(
                     text = stringResource(id = R.string.btn_masuk),
-                    style = TextStyle(fontWeight = FontWeight.Bold)
+                    style = TextStyle(fontWeight = FontWeight.Bold),
+                    color = Color(0xFFFFFFFF)
+
                 )
             }
             Button(

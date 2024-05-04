@@ -7,13 +7,16 @@
     <string name="persetujuan">Dengan masuk atau mendaftar, kamu menyetujui Ketentuan layanan dan Kebijakan privasi.</string>
     <string name="btn_daftar">Belum ada akun? Daftar dulu</string>
     <string name="keterangan_regis_1">Silahkan daftar dalam beberapa langkah mudah</string>
+    <string name="keterangan_regis_2">Dengan melanjutkan pendaftaran, saya menyetujui Ketentuan layanan dan Kebijakan privasi dari T-Grocery.</string>
+    <string name="keterangan_login_1">Silahkan masuk dalam beberapa langkah mudah</string>
+    <string name="keterangan_login_2">Belum punya akun? Daftar sekarang</string>
+    <string name="keterangan_login_3">Saya menyetujui Ketentuan layanan dan Kebijakan privasi dari T- Grocery</string>
     <string name="pilih_mart">Pilih Mart</string>
     <string name="username">Username</string>
     <string name="email">Email</string>
     <string name="kata_sandi">Kata Sandi</string>
     <string name="konfirmasi_kata_sandi">Konfirmasi Kata Sandi</string>
     <string name="daftar">Daftar</string>
-    <string name="keterangan_regis_2">Dengan melanjutkan pendaftaran, saya menyetujui Ketentuan layanan dan Kebijakan privasi dari T-Grocery.</string>
     <string name="kembali">Kembali</string>
     <string name="tmart_putra">T-MART PUTRA</string>
     <string name="tmart_putri">T-MART PUTRI</string>
