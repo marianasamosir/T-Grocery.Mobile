@@ -23,4 +23,9 @@
     <string name="tjmart">TJ-MART</string>
     <string name="input_invalid">Tidak boleh kosong.</string>
     <string name="drop_invalid">Wajib pilih market.</string>
+    <string name="hi_username">Hi, (username)</string>
+    <string name="desc_homepage_1">Buat Pelanggan Jatuh Cinta !!</string>
+    <string name="desc_homepage_2">Dengan kemudahan yang disediakan setiap market</string>
+    <string name="desc_homepage_3">Buatlah semenarik mungkin untuk memikat hati pelanggan</string>
+    <string name="tambah">Tambah</string>
 </resources>
