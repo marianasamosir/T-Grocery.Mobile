@@ -28,4 +28,6 @@
     <string name="desc_homepage_2">Dengan kemudahan yang disediakan setiap market</string>
     <string name="desc_homepage_3">Buatlah semenarik mungkin untuk memikat hati pelanggan</string>
     <string name="tambah">Tambah</string>
+    <string name="list_kosong">Belum ada produk</string>
+    <string name="x_diklik">%1$s diklik!</string>
 </resources>

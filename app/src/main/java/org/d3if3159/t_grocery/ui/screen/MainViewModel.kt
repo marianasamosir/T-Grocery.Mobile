@@ -15,7 +15,7 @@ class MainViewModel: ViewModel() {
                     "Queker",
                     "Quaker Original",
                     "Rp12.500",
-                    "5"
+                    "Strok: 5"
                 )
             )
         }
