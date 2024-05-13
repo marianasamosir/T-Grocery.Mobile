@@ -91,11 +91,9 @@ fun HomePageScreen(navController: NavHostController) {
 @Composable
 fun HomePageContent(modifier: Modifier){
 
-    val viewModel: MainViewModel = viewModel()
-    val data = viewModel.data
+//    val viewModel: MainViewModel = viewModel()
     val context = LocalContext.current
-//    INI KODE KALO BELUM ADA PRODUK
-//    val data = emptyList<Barang>()
+    val data = emptyList<Barang>()
 
     Box(modifier = modifier.fillMaxWidth()) {
         Image(
@@ -166,32 +164,32 @@ fun HomePageContent(modifier: Modifier){
         }
 
 // KODE KALO MENANGANGI KEADAAN JIKA LIST KOSONG
-//    if(data.isEmpty()){
-//        Column(
-//            modifier = modifier
-//                .fillMaxSize()
-//                .padding(16.dp),
-//            verticalArrangement = Arrangement.Center,
-//            horizontalAlignment = Alignment.CenterHorizontally
-//        ) {
-//            Text(text = stringResource(id = R.string.list_kosong))
-//        }
-//
-//    } else {
-//        LazyColumn(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .padding(horizontal = 40.dp, vertical = 30.dp)
-//                .padding(top = 300.dp)
-//        ) {
-//            items(data) {
-//                ListItem(barang = it) {
-//                    val pesan = context.getString(R.string.x_diklik, it.nama)
-//                    Toast.makeText(context, pesan, Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        }
-//    }
+    if(data.isEmpty()){
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = stringResource(id = R.string.list_kosong))
+        }
+
+    } else {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 40.dp, vertical = 30.dp)
+                .padding(top = 300.dp)
+        ) {
+            items(data) {
+                ListItem(barang = it) {
+                    val pesan = context.getString(R.string.x_diklik, it.nama)
+                    Toast.makeText(context, pesan, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -199,7 +197,7 @@ fun ListItem(barang: Barang, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .padding(2.dp)
-            .border(BorderStroke(1.dp, Color(0xFFACACAC)),),
+            .border(BorderStroke(1.dp, Color(0xFFACACAC)), RoundedCornerShape(12.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -211,29 +209,39 @@ fun ListItem(barang: Barang, onClick: () -> Unit) {
                 .clip(RoundedCornerShape(8.dp))
                 .fillMaxSize()
         )
-        Column(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { onClick },
-            verticalArrangement = Arrangement.spacedBy(3.dp)
+            horizontalArrangement = Arrangement.spacedBy(3.dp)
         ) {
-            Text(
-                text = barang.nama,
-                maxLines = 1,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = barang.deskripsi,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                fontSize = 12.sp
-            )
-            Text(
-                text = barang.harga,
-                fontSize = 12.sp
-            )
-//            Text(text = barang.stok)
+            Column {
+                Text(
+                    text = barang.nama,
+                    maxLines = 1,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = barang.deskripsi,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    fontSize = 12.sp
+                )
+                Text(
+                    text = barang.harga,
+                    fontSize = 12.sp
+                )
+            }
+            Column(
+                modifier = Modifier.padding(start = 60.dp, top = 32.dp)
+//                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = barang.stok,
+                    fontSize = 12.sp
+                )
+            }
         }
     }
 }
