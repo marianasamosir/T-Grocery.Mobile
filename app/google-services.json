@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "433153436310",
+    "project_id": "t-grocery",
+    "storage_bucket": "t-grocery.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433153436310:android:e3d2b7e5a9586633e7f0b7",
+        "android_client_info": {
+          "package_name": "org.d3if3159.t_grocery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAvjeu6ti-KqBHRPNXugbwFsQqyDb_rKA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
