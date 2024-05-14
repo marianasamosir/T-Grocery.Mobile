@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import org.d3if3159.t_grocery.R
+import org.d3if3159.t_grocery.navigation.Screen
 import org.d3if3159.t_grocery.ui.theme.TGroceryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -77,12 +78,12 @@ fun LoginScreen(navController: NavHostController) {
             )
         }
     ){padding ->
-        LoginContent(Modifier.padding(padding))
+        LoginContent(Modifier.padding(padding), navController)
     }
 }
 
 @Composable
-fun LoginContent(modifier: Modifier) {
+fun LoginContent(modifier: Modifier, navController: NavHostController) {
 
     var username by rememberSaveable { mutableStateOf("") }
     var usernameError by rememberSaveable { mutableStateOf(false) }
@@ -164,10 +165,16 @@ fun LoginContent(modifier: Modifier) {
         )
         Button(
             onClick = {
-                usernameError = (username == "" || username == "0")
-                kataSandiError = (kataSandi == "" || kataSandi == "0")
-                if (usernameError || kataSandiError)
-                    return@Button
+                // Validasi input username dan kata sandi
+                usernameError = (username.isBlank() || username == "0")
+                kataSandiError = (kataSandi.isBlank() || kataSandi == "0")
+
+                // Cek apakah ada error
+                if (!usernameError && !kataSandiError) {
+                    // Jika tidak ada error, lakukan navigasi
+                    navController.navigate(Screen.Homepage.route)
+                }
+
             },
             modifier = Modifier
                 .padding(top = 15.dp)

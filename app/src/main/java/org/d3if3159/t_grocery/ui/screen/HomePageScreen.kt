@@ -41,7 +41,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import org.d3if3159.t_grocery.R
@@ -50,7 +49,8 @@ import org.d3if3159.t_grocery.ui.theme.TGroceryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomePageScreen(navController: NavHostController) {
+fun HomePageScreen(navHostController: NavHostController) {
+    val contex = LocalContext.current
     Scaffold (
         topBar = {
             TopAppBar(
@@ -94,6 +94,7 @@ fun HomePageContent(modifier: Modifier){
 //    val viewModel: MainViewModel = viewModel()
     val context = LocalContext.current
     val data = emptyList<Barang>()
+//    val data = viewModel.data
 
     Box(modifier = modifier.fillMaxWidth()) {
         Image(
@@ -140,7 +141,9 @@ fun HomePageContent(modifier: Modifier){
             )
         }
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                Toast.makeText(context, R.string.tambah_error, Toast.LENGTH_SHORT).show()
+            },
             modifier = Modifier
                 .height(35.dp)
                 .width(110.dp),
@@ -150,29 +153,47 @@ fun HomePageContent(modifier: Modifier){
         }
     }
     LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 40.dp, vertical = 30.dp)
-                .padding(top = 300.dp)
-        ) {
-            items(data) {
-                ListItem(barang = it) {
-                    val pesan = context.getString(R.string.x_diklik, it.nama)
-                    Toast.makeText(context, pesan, Toast.LENGTH_SHORT).show()
-                }
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 40.dp, vertical = 30.dp)
+            .padding(top = 300.dp)
+//      contentPadding = PaddingValues(bottom = 84.dp) (GAK PERLU PAKE KARENA TAMBAH NYA DIATAS)
+    ) {
+        items(data) {
+            ListItem(barang = it) {
+                val pesan = context.getString(R.string.x_diklik, it.nama)
+                Toast.makeText(context, pesan, Toast.LENGTH_SHORT).show()
             }
         }
+    }
 
 // KODE KALO MENANGANGI KEADAAN JIKA LIST KOSONG
     if(data.isEmpty()){
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(horizontal = 16.dp)
+                .padding(top = 182.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = stringResource(id = R.string.list_kosong))
+            Image(
+                painter = painterResource(id = R.drawable.list_empty),
+                contentDescription = "list empty",
+                modifier = Modifier.size(110.dp)
+            )
+            Text(
+                text = stringResource(id = R.string.list_kosong1),
+                fontSize = 13.sp,
+                color = Color(0xFFACACAC),
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = stringResource(id = R.string.list_kosong2),
+                fontSize = 10.sp,
+                color = Color(0xFFACACAC),
+                fontWeight = FontWeight.Bold
+            )
         }
 
     } else {
@@ -212,7 +233,7 @@ fun ListItem(barang: Barang, onClick: () -> Unit) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onClick },
+                .clickable { onClick() },
             horizontalArrangement = Arrangement.spacedBy(3.dp)
         ) {
             Column {
@@ -228,14 +249,14 @@ fun ListItem(barang: Barang, onClick: () -> Unit) {
                     overflow = TextOverflow.Ellipsis,
                     fontSize = 12.sp
                 )
+                Spacer(modifier = Modifier.height(5.dp))
                 Text(
                     text = barang.harga,
                     fontSize = 12.sp
                 )
             }
             Column(
-                modifier = Modifier.padding(start = 60.dp, top = 32.dp)
-//                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier.padding(start = 65.dp, top = 32.dp)
             ) {
                 Text(
                     text = barang.stok,
