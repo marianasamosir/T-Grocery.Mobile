@@ -201,7 +201,7 @@ fun FormTambahProduk(
                 Text(
                     text = stringResource(id = R.string.harga_produk),
                     fontSize = 13.sp,
-                    color = Color(0xFFACACAC)
+                    color = Color(0xFFACACAA)
                 )
             },
             singleLine = true,
