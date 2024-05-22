@@ -1,24 +1,17 @@
 package org.d3if3159.t_grocery.ui.screen
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
+import org.d3if3159.t_grocery.database.BarangDao
 import org.d3if3159.t_grocery.model.Barang
 
-class MainViewModel: ViewModel() {
-    val data = getDataDummy()
-
-    private fun getDataDummy(): List<Barang> {
-        val data = mutableListOf<Barang>()
-        for (i in 19 downTo 10) {
-            data.add(
-                Barang(
-                    i.toLong(),
-                    "Queker",
-                    "Quaker Original",
-                    "Rp12.500",
-                    "Strok: 5"
-                )
-            )
-        }
-        return data
-    }
+class MainViewModel(dao: BarangDao): ViewModel() {
+    val data: StateFlow<List<Barang>> = dao.getBarang().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(0L),
+        initialValue = emptyList()
+    )
 }

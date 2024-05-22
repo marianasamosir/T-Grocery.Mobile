@@ -20,15 +20,24 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,21 +45,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import org.d3if3159.t_grocery.R
+import org.d3if3159.t_grocery.database.BarangDb
 import org.d3if3159.t_grocery.model.Barang
 import org.d3if3159.t_grocery.navigation.Screen
 import org.d3if3159.t_grocery.ui.theme.TGroceryTheme
+import org.d3if3159.t_grocery.util.ViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePageScreen(navController: NavHostController) {
+
+    var showSearchBar by remember { mutableStateOf(false) }
+
     Scaffold (
         topBar = {
             TopAppBar(
@@ -84,17 +100,22 @@ fun HomePageScreen(navController: NavHostController) {
             )
         }
     ){padding ->
-        HomePageContent(Modifier.padding(padding), navController)
+        HomePageContent(Modifier.padding(padding), navController, searchData = {})
     }
 }
 
 @Composable
-fun HomePageContent(modifier: Modifier, navController: NavHostController){
+fun HomePageContent(modifier: Modifier, navController: NavHostController,
+                    searchData: (String) -> Unit){
 
-//    val viewModel: MainViewModel = viewModel()
     val context = LocalContext.current
-    val data = emptyList<Barang>()
-//    val data = viewModel.data
+    val db = BarangDb.getInstance(context)
+    val factory = ViewModelFactory(db.dao)
+    val viewModel: MainViewModel = viewModel(factory = factory)
+    val data by viewModel.data.collectAsState()
+
+    var searchText by remember { mutableStateOf("") }
+
 
     Box(modifier = modifier.fillMaxWidth()) {
         Image(
@@ -128,26 +149,38 @@ fun HomePageContent(modifier: Modifier, navController: NavHostController){
             .padding(top = 260.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        OutlinedButton(
-            onClick = { /*TODO*/ },
-            border = BorderStroke(1.dp, Color(0xFFB11116)),
+        TextField(
+            value = searchText,
+            onValueChange = {
+                searchText = it
+                searchData(it) // Panggil fungsi pencarian dengan teks yang baru
+            },
             modifier = Modifier
-                .height(35.dp)
-                .width(150.dp)
-        ) {
-            Text(
-                text = "Keseluruhan",
-                color = Color(0xFFB11116)
-            )
-        }
+                .padding(top = 12.dp)
+                .width(170.dp)
+                .height(25.dp),
+//                .padding(horizontal = 16.dp, vertical = 8.dp),
+            label = {
+                Text(
+                    "Search",
+                    style = TextStyle(color = Color(0xFFB11116)) // Mengubah warna teks label
+                )
+            },// Label untuk search bar
+            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search Icon", tint = Color(0xFFB11116)) }, // Icon pencarian
+            singleLine = true, // Menentukan search bar hanya satu baris
+            textStyle = TextStyle(color = Color(0xFFB11116)), // Gaya teks search bar
+            shape = MaterialTheme.shapes.medium // Bentuk search bar
+        )
+
         Button(
             onClick = {
                 navController.navigate(Screen.FormBaru.route)
             },
             modifier = Modifier
-                .height(35.dp)
-                .width(110.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB11116))
+                .height(45.dp)
+                .width(120.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB11116)),
+            border = BorderStroke(1.dp, Color(0xFFB11116))
         ) {
             Text(text = stringResource(id = R.string.tambah))
         }
@@ -211,6 +244,7 @@ fun HomePageContent(modifier: Modifier, navController: NavHostController){
         }
     }
 }
+
 
 @Composable
 fun ListItem(barang: Barang, onClick: () -> Unit) {
