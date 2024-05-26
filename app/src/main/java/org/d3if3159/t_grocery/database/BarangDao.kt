@@ -21,4 +21,7 @@ interface BarangDao {
 
     @Query("SELECT * FROM barang WHERE id = :id")
     suspend fun getBarangById(id: Long): Barang?
+
+    @Query("DELETE FROM barang WHERE id = :id")
+    suspend fun deleteById(id: Long)
 }

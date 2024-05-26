@@ -18,14 +18,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -122,6 +127,7 @@ fun DetailScreen(navController: NavHostController, id: Long? = null) {
                 actions = {
                     IconButton(onClick = {
                         if (
+                            imageUri.toString() == "" ||
                             namaProduk == "" ||
                             deskripsiProduk == "" ||
                             hargaProduk == "" ||
@@ -142,6 +148,12 @@ fun DetailScreen(navController: NavHostController, id: Long? = null) {
                             contentDescription = stringResource(id = R.string.simpan),
                             tint = Color(0xFFB11116)
                         )
+                    }
+                    if (id != null) {
+                        DeletedIcon {
+                            viewModel.delete(id)
+                            navController.popBackStack()
+                        }
                     }
                 }
             )
@@ -199,6 +211,7 @@ fun FormTambahProduk(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(top = 70.dp)
             .padding(horizontal = 40.dp),
         verticalArrangement = Arrangement.spacedBy(5.dp)
@@ -221,7 +234,7 @@ fun FormTambahProduk(
         }
         
         Button(
-            onClick = { /*TODO*/ },
+            onClick = onImageClick,
             border = BorderStroke(width = 1.dp, color = Color.Gray),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFFFFF)),
             modifier = Modifier
@@ -326,6 +339,33 @@ fun FormTambahProduk(
                 .fillMaxWidth()
                 .height(55.dp)
         )
+    }
+}
+
+@Composable
+fun DeletedIcon(delete: () -> Unit){
+    var expanded by remember { mutableStateOf(false) }
+
+    IconButton(onClick = { expanded = true }) {
+        Icon(
+            imageVector = Icons.Filled.MoreVert,
+            contentDescription = stringResource(id = R.string.opsi_lainnya),
+            tint = Color(0xFFB11116)
+        )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            DropdownMenuItem(
+                text = {
+                    Text(text = stringResource(id = R.string.hapus))
+                },
+                onClick = {
+                    expanded = false
+                    delete()
+                }
+            )
+        }
     }
 }
 

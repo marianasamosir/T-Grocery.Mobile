@@ -1,6 +1,7 @@
 package org.d3if3159.t_grocery.ui.screen
 
 import android.content.res.Configuration
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -42,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -54,6 +56,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
 import org.d3if3159.t_grocery.R
 import org.d3if3159.t_grocery.database.BarangDb
 import org.d3if3159.t_grocery.model.Barang
@@ -65,7 +68,7 @@ import org.d3if3159.t_grocery.util.ViewModelFactory
 @Composable
 fun HomePageScreen(navController: NavHostController) {
 
-    var showSearchBar by remember { mutableStateOf(false) }
+    var showList by remember { mutableStateOf(true) }
 
     Scaffold (
         topBar = {
@@ -100,22 +103,30 @@ fun HomePageScreen(navController: NavHostController) {
             )
         }
     ){padding ->
-        HomePageContent(Modifier.padding(padding), navController, searchData = {})
+        HomePageContent(showList, Modifier.padding(padding), navController)
     }
 }
 
 @Composable
-fun HomePageContent(modifier: Modifier, navController: NavHostController,
-                    searchData: (String) -> Unit){
+fun HomePageContent(
+    showList: Boolean,
+    modifier: Modifier,
+    navController: NavHostController,
+//  searchData: (String) -> Unit
+){
 
     val context = LocalContext.current
     val db = BarangDb.getInstance(context)
     val factory = ViewModelFactory(db.dao)
     val viewModel: MainViewModel = viewModel(factory = factory)
     val data by viewModel.data.collectAsState()
+    val searchText by viewModel.searchText.collectAsState()
 
-    var searchText by remember { mutableStateOf("") }
-
+    val filteredProducts = if (searchText.isEmpty()) {
+        data
+    } else {
+        data.filter { it.doesMactchSearchQuery(searchText) }
+    }
 
     Box(modifier = modifier.fillMaxWidth()) {
         Image(
@@ -149,28 +160,7 @@ fun HomePageContent(modifier: Modifier, navController: NavHostController,
             .padding(top = 260.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        TextField(
-            value = searchText,
-            onValueChange = {
-                searchText = it
-                searchData(it) // Panggil fungsi pencarian dengan teks yang baru
-            },
-            modifier = Modifier
-                .padding(top = 12.dp)
-                .width(170.dp)
-                .height(25.dp),
-//                .padding(horizontal = 16.dp, vertical = 8.dp),
-            label = {
-                Text(
-                    "Search",
-                    style = TextStyle(color = Color(0xFFB11116)) // Mengubah warna teks label
-                )
-            },// Label untuk search bar
-            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search Icon", tint = Color(0xFFB11116)) }, // Icon pencarian
-            singleLine = true, // Menentukan search bar hanya satu baris
-            textStyle = TextStyle(color = Color(0xFFB11116)), // Gaya teks search bar
-            shape = MaterialTheme.shapes.medium // Bentuk search bar
-        )
+
 
         Button(
             onClick = {
@@ -230,15 +220,37 @@ fun HomePageContent(modifier: Modifier, navController: NavHostController,
         }
 
     } else {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 40.dp, vertical = 30.dp)
-                .padding(top = 300.dp)
-        ) {
-            items(data) {
-                ListItem(barang = it) {
-                    navController.navigate(Screen.FormEdit.withId(it.id))
+        Column(modifier = modifier) {
+            //searchbar
+            TextField(
+                value = searchText,
+                onValueChange = viewModel::onSearchTextChange,
+                modifier = Modifier
+                    .padding(top = 12.dp)
+                    .width(170.dp)
+                    .height(25.dp),
+//                .padding(horizontal = 16.dp, vertical = 8.dp),
+                placeholder = { Text(text = "Search")},
+                leadingIcon = { Icon(
+                    Icons.Filled.Search, contentDescription = "Search Icon",
+                    tint = Color(0xFFB11116)
+                ) }, // Icon pencarian
+                textStyle = TextStyle(color = Color(0xFFB11116)), // Gaya teks search bar
+                shape = MaterialTheme.shapes.medium // Bentuk search bar
+            )
+
+            if (showList) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 40.dp, vertical = 30.dp)
+                        .padding(top = 300.dp)
+                ) {
+                    items(filteredProducts) { barang ->
+                        ListItem(barang = barang) {
+                            navController.navigate(Screen.FormEdit.withId(barang.id))
+                        }
+                    }
                 }
             }
         }
@@ -254,14 +266,16 @@ fun ListItem(barang: Barang, onClick: () -> Unit) {
             .border(BorderStroke(1.dp, Color(0xFFACACAC)), RoundedCornerShape(12.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val imageUri = Uri.parse(barang.gambar)
         Image(
-            painter = painterResource(id = R.drawable.produk_quaker),
-            contentDescription = "",
+            painter = rememberAsyncImagePainter(model = imageUri),
+            contentDescription = null,
             modifier = Modifier
                 .padding(13.dp)
                 .size(60.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .fillMaxSize()
+                .fillMaxSize(),
+            contentScale = ContentScale.FillBounds
         )
         Row(
             modifier = Modifier

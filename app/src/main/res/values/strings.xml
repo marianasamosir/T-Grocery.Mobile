@@ -42,4 +42,6 @@
     <string name="edit_produk">EDIT PRODUK</string>
     <string name="invalid">Nama, deskripsi, harga dan stok produk tidak boleh kosong</string>
     <string name="upload_foto">Tambah Foto</string>
+    <string name="opsi_lainnya">Opsi lainnya</string>
+    <string name="hapus">Hapus</string>
 </resources>
