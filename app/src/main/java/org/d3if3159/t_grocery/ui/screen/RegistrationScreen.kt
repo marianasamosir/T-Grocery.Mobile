@@ -121,7 +121,7 @@ fun RegistrationContent(modifier: Modifier) {
         Text(
             text = stringResource(id = R.string.selamat_datang),
             style = TextStyle(
-                fontSize = 23.sp,
+                fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             ),
@@ -129,7 +129,7 @@ fun RegistrationContent(modifier: Modifier) {
         )
         Text(
             text = stringResource(id = R.string.keterangan_regis_1),
-            style = TextStyle(fontSize = 14.sp),
+            style = TextStyle(fontSize = 15.sp),
             modifier = Modifier
                 .fillMaxWidth()
         )
@@ -148,7 +148,7 @@ fun RegistrationContent(modifier: Modifier) {
                     .menuAnchor()
                     .fillMaxWidth()
                     .padding(top = 43.dp)
-                    .height(50.dp)
+                    .height(55.dp)
             )
             ExposedDropdownMenu(
                 expanded = market,
@@ -195,7 +195,7 @@ fun RegistrationContent(modifier: Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
-                .height(55.dp)
+                .height(60.dp)
         )
         OutlinedTextField(
             value = email,
@@ -219,7 +219,7 @@ fun RegistrationContent(modifier: Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
-                .height(55.dp)
+                .height(60.dp)
         )
         OutlinedTextField(
             value = kataSandi,
@@ -243,7 +243,7 @@ fun RegistrationContent(modifier: Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
-                .height(55.dp)
+                .height(60.dp)
         )
         OutlinedTextField(
             value = konfirmasiKataSandi,
@@ -267,7 +267,7 @@ fun RegistrationContent(modifier: Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
-                .height(55.dp)
+                .height(60.dp)
         )
         Button(
             onClick = {
@@ -281,7 +281,7 @@ fun RegistrationContent(modifier: Modifier) {
             modifier = Modifier
                 .padding(top = 43.dp)
                 .fillMaxWidth()
-                .height(45.dp),
+                .height(50.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB11116))
         )
         {
@@ -292,7 +292,7 @@ fun RegistrationContent(modifier: Modifier) {
         }
         Text(
             text = stringResource(id = R.string.keterangan_regis_2),
-            style = TextStyle(fontSize = 12.sp),
+            style = TextStyle(fontSize = 13.sp),
             modifier = Modifier.padding(top = 16.dp),
         )
     }

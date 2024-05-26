@@ -9,6 +9,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -63,6 +64,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
+import org.d3if3159.t_grocery.DisplayAlertDialog
 import org.d3if3159.t_grocery.R
 import org.d3if3159.t_grocery.database.BarangDb
 import org.d3if3159.t_grocery.ui.theme.TGroceryTheme
@@ -87,6 +89,8 @@ fun DetailScreen(navController: NavHostController, id: Long? = null) {
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? -> imageUri = uri}
+
+    var showDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(true) {
         if (id == null) return@LaunchedEffect
@@ -150,7 +154,11 @@ fun DetailScreen(navController: NavHostController, id: Long? = null) {
                         )
                     }
                     if (id != null) {
-                        DeletedIcon {
+                        DeletedIcon { showDialog = true }
+                        DisplayAlertDialog(
+                            openDialog = showDialog,
+                            onDismissRequest = { showDialog = false }) {
+                            showDialog = false
                             viewModel.delete(id)
                             navController.popBackStack()
                         }
@@ -198,13 +206,13 @@ fun FormTambahProduk(
         if (id == null)
             Text(
                 text = stringResource(id = R.string.tambah_produk),
-                fontSize = 13.sp,
+                fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
         else
             Text(
                 text = stringResource(id = R.string.edit_produk),
-                fontSize = 13.sp,
+                fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
     }
@@ -213,25 +221,16 @@ fun FormTambahProduk(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(top = 70.dp)
-            .padding(horizontal = 40.dp),
+            .padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         Text(
             text = stringResource(id = R.string.detail_produk),
-            fontSize = 13.sp,
+            fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 15.dp)
         )
-        imageUri?.let { uri ->
-            Image(
-                painter = rememberAsyncImagePainter(uri),
-                contentDescription = null,
-                modifier = Modifier
-                    .width(142.dp)
-                    .height(216.dp),
-                contentScale = ContentScale.FillBounds
-            )
-        }
+
         
         Button(
             onClick = onImageClick,
@@ -239,24 +238,65 @@ fun FormTambahProduk(
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFFFFF)),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp),
+                .height(180.dp),
             contentPadding = PaddingValues(),
-            shape = RoundedCornerShape(size = 20.dp)
+            shape = RoundedCornerShape(size = 40.dp)
         ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_image_24),
-                    contentDescription = null
-                )
-                Text(
-                    text = stringResource(id = R.string.upload_foto),
-                    color = Color.Gray
-                )
+                if(imageUri != null) {
+                    imageUri.let { uri ->
+                        Image(
+                            painter = rememberAsyncImagePainter(uri),
+                            contentDescription = null,
+                            modifier = Modifier.padding(vertical = 16.dp),
+                            contentScale = ContentScale.FillBounds
+                        )
+                    }
+                } else {
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.baseline_image_24),
+                            contentDescription = null
+                        )
+                        Text(
+                            text = stringResource(id = R.string.upload_foto),
+                            color = Color.Gray
+                        )
+                    }
+                }
             }
+//            Column(
+//                verticalArrangement = Arrangement.Center,
+//                horizontalAlignment = Alignment.CenterHorizontally
+//            ) {
+//                Image(
+//                    painter = painterResource(id = R.drawable.baseline_image_24),
+//                    contentDescription = null
+//                )
+//                Text(
+//                    text = stringResource(id = R.string.upload_foto),
+//                    color = Color.Gray
+//                )
+//            }
         }
+
+//        imageUri?.let { uri ->
+//            Image(
+//                painter = rememberAsyncImagePainter(uri),
+//                contentDescription = null,
+//                modifier = Modifier
+//                    .width(122.dp)
+//                    .height(186.dp),
+//                alignment = Alignment.Center,
+//                contentScale = ContentScale.FillBounds,
+//            )
+//        }
 
         OutlinedTextField(
             value = title,
@@ -265,6 +305,7 @@ fun FormTambahProduk(
                 Text(
                     text = stringResource(id = R.string.nama_produk),
                     fontSize = 13.sp,
+                    modifier = Modifier.padding(start = 16.dp),
                     color = Color(0xFFACACAC)
                 )
             },
@@ -276,7 +317,7 @@ fun FormTambahProduk(
             shape = RoundedCornerShape(50.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(55.dp)
+                .height(60.dp)
         )
         OutlinedTextField(
             value = deskripsi,
@@ -285,6 +326,7 @@ fun FormTambahProduk(
                 Text(
                     text = stringResource(id = R.string.deskripsi_produk),
                     fontSize = 13.sp,
+                    modifier = Modifier.padding(start = 16.dp),
                     color = Color(0xFFACACAC)
                 )
             },
@@ -296,7 +338,7 @@ fun FormTambahProduk(
             shape = RoundedCornerShape(50.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(55.dp)
+                .height(60.dp)
         )
         OutlinedTextField(
             value = harga,
@@ -305,6 +347,7 @@ fun FormTambahProduk(
                 Text(
                     text = stringResource(id = R.string.harga_produk),
                     fontSize = 13.sp,
+                    modifier = Modifier.padding(start = 16.dp),
                     color = Color(0xFFACACAA)
                 )
             },
@@ -316,7 +359,7 @@ fun FormTambahProduk(
             shape = RoundedCornerShape(50.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(55.dp)
+                .height(60.dp)
         )
         OutlinedTextField(
             value = stok,
@@ -325,6 +368,7 @@ fun FormTambahProduk(
                 Text(
                     text = stringResource(id = R.string.stok_produk),
                     fontSize = 13.sp,
+                    modifier = Modifier.padding(start = 16.dp),
                     color = Color(0xFFACACAC)
                 )
             },
@@ -337,7 +381,7 @@ fun FormTambahProduk(
 //            colors = Color(0xFFACACAC),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(55.dp)
+                .height(60.dp)
         )
     }
 }

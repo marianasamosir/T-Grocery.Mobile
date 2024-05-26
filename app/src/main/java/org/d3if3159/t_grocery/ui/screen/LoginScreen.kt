@@ -16,13 +16,16 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,30 +54,26 @@ import org.d3if3159.t_grocery.ui.theme.TGroceryTheme
 fun LoginScreen(navController: NavHostController) {
     Scaffold (
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
+                title = {
+                    Image(
+                        painter = painterResource(id = R.drawable.logo_tgrocery),
+                        contentDescription = stringResource(id = R.string.logo),
+                        modifier = Modifier
+                            .size(120.dp)
+                    )
+                },
                 navigationIcon = {
-                    Row (
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 16.dp)
+                    IconButton(
+                        onClick = { navController.popBackStack() }
                     ) {
-                        IconButton(onClick = {navController.popBackStack()}) {
-                            Icon(
-                                imageVector = Icons.Filled.ArrowBack,
-                                contentDescription = stringResource(id = R.string.kembali),
-                                tint = Color(0xFFB11116),
-
-                                )
-                        }
-                        Image(
-                            painter = painterResource(id = R.drawable.logo_tgrocery),
-                            contentDescription = stringResource(id = R.string.logo),
-                            modifier = Modifier
-                                .padding(start = 60.dp)
-                                .size(120.dp)
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.kembali),
+                            tint = Color(0xFFB11116)
                         )
                     }
-                },
-                title = {},
+                }
             )
         }
     ){padding ->
@@ -94,13 +93,13 @@ fun LoginContent(modifier: Modifier, navController: NavHostController) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 30.dp, vertical = 30.dp),
+            .padding(horizontal = 20.dp, vertical = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = stringResource(id = R.string.selamat_datang),
             style = TextStyle(
-                fontSize = 23.sp,
+                fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             ),
@@ -108,7 +107,7 @@ fun LoginContent(modifier: Modifier, navController: NavHostController) {
         )
         Text(
             text = stringResource(id = R.string.keterangan_login_1),
-            style = TextStyle(fontSize = 14.sp),
+            style = TextStyle(fontSize = 15.sp),
             modifier = Modifier
                 .fillMaxWidth()
         )
@@ -119,6 +118,7 @@ fun LoginContent(modifier: Modifier, navController: NavHostController) {
                 Text(
                     text = stringResource(id = R.string.username),
                     modifier = Modifier.padding(start = 16.dp)
+//                    fontSize = 12.sp
                 )
             },
             isError = usernameError,
@@ -133,7 +133,7 @@ fun LoginContent(modifier: Modifier, navController: NavHostController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 43.dp)
-                .height(55.dp)
+                .height(60.dp)
         )
         OutlinedTextField(
             value = kataSandi,
@@ -155,12 +155,12 @@ fun LoginContent(modifier: Modifier, navController: NavHostController) {
             shape = RoundedCornerShape(50.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp)
-                .height(55.dp)
+                .padding(top = 5.dp)
+                .height(60.dp)
         )
         Text(
             text = stringResource(id = R.string.keterangan_login_2),
-            style = TextStyle(fontSize = 12.sp),
+            style = TextStyle(fontSize = 13.sp),
             modifier = Modifier.padding(top = 60.dp)
         )
         Button(
@@ -178,8 +178,8 @@ fun LoginContent(modifier: Modifier, navController: NavHostController) {
             },
             modifier = Modifier
                 .padding(top = 15.dp)
-                .fillMaxWidth()
-                .height(45.dp),
+                .height(50.dp)
+                .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB11116))
         )
         {
@@ -190,7 +190,7 @@ fun LoginContent(modifier: Modifier, navController: NavHostController) {
         }
         Text(
             text = stringResource(id = R.string.keterangan_login_3),
-            style = TextStyle(fontSize = 12.sp),
+            style = TextStyle(fontSize = 13.sp),
             modifier = Modifier.padding(top = 16.dp),
         )
     }

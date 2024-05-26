@@ -2,7 +2,6 @@ package org.d3if3159.t_grocery.ui.screen
 
 import android.content.res.Configuration
 import android.net.Uri
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -12,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -134,7 +134,7 @@ fun HomePageContent(
             contentDescription = ""
         )
         Column(
-            modifier = Modifier.padding(top = 36.dp, start = 40.dp, end = 150.dp)
+            modifier = Modifier.padding(top = 36.dp, start = 20.dp, end = 150.dp)
         ) {
             Text(
                 text = stringResource(id = R.string.desc_homepage_1),
@@ -156,37 +156,37 @@ fun HomePageContent(
     Row(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 40.dp)
+            .padding(horizontal = 20.dp)
             .padding(top = 260.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-
-
+        TextField(
+            value = searchText,
+            onValueChange = viewModel::onSearchTextChange,
+            modifier = Modifier
+                .width(180.dp)
+                .height(50.dp),
+            placeholder = { Text(
+                text = "Keseluruhan",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFFB11116)
+            ) },
+            textStyle = TextStyle(color = Color.Black), // Gaya teks search bar
+            shape = RoundedCornerShape(20.dp)
+        )
         Button(
             onClick = {
                 navController.navigate(Screen.FormBaru.route)
             },
             modifier = Modifier
-                .height(45.dp)
+                .height(50.dp)
                 .width(120.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB11116)),
-            border = BorderStroke(1.dp, Color(0xFFB11116))
+            border = BorderStroke(1.dp, Color(0xFFB11116)),
+            shape = RoundedCornerShape(size = 20.dp)
         ) {
             Text(text = stringResource(id = R.string.tambah))
-        }
-    }
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 40.dp, vertical = 30.dp)
-            .padding(top = 300.dp)
-//      contentPadding = PaddingValues(bottom = 84.dp) (GAK PERLU PAKE KARENA TAMBAH NYA DIATAS)
-    ) {
-        items(data) {
-            ListItem(barang = it) {
-                val pesan = context.getString(R.string.x_diklik, it.nama)
-                Toast.makeText(context, pesan, Toast.LENGTH_SHORT).show()
-            }
         }
     }
 
@@ -195,7 +195,7 @@ fun HomePageContent(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(horizontal = 40.dp)
+                .padding(horizontal = 20.dp)
                 .padding(top = 182.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -221,30 +221,12 @@ fun HomePageContent(
 
     } else {
         Column(modifier = modifier) {
-            //searchbar
-            TextField(
-                value = searchText,
-                onValueChange = viewModel::onSearchTextChange,
-                modifier = Modifier
-                    .padding(top = 12.dp)
-                    .width(170.dp)
-                    .height(25.dp),
-//                .padding(horizontal = 16.dp, vertical = 8.dp),
-                placeholder = { Text(text = "Search")},
-                leadingIcon = { Icon(
-                    Icons.Filled.Search, contentDescription = "Search Icon",
-                    tint = Color(0xFFB11116)
-                ) }, // Icon pencarian
-                textStyle = TextStyle(color = Color(0xFFB11116)), // Gaya teks search bar
-                shape = MaterialTheme.shapes.medium // Bentuk search bar
-            )
-
             if (showList) {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 40.dp, vertical = 30.dp)
-                        .padding(top = 300.dp)
+                        .padding(horizontal = 20.dp, vertical = 30.dp)
+                        .padding(top = 260.dp)
                 ) {
                     items(filteredProducts) { barang ->
                         ListItem(barang = barang) {
@@ -263,8 +245,11 @@ fun ListItem(barang: Barang, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .padding(2.dp)
+            .fillMaxWidth()
+            .clickable { onClick() }
             .border(BorderStroke(1.dp, Color(0xFFACACAC)), RoundedCornerShape(12.dp)),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(3.dp)
     ) {
         val imageUri = Uri.parse(barang.gambar)
         Image(
@@ -277,36 +262,33 @@ fun ListItem(barang: Barang, onClick: () -> Unit) {
                 .fillMaxSize(),
             contentScale = ContentScale.FillBounds
         )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { onClick() },
-            horizontalArrangement = Arrangement.spacedBy(3.dp)
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
-            Column {
-                Text(
-                    text = barang.nama,
-                    maxLines = 1,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = barang.deskripsi,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    fontSize = 12.sp
-                )
-                Spacer(modifier = Modifier.height(5.dp))
+            Text(
+                text = barang.nama,
+                maxLines = 1,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = barang.deskripsi,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontSize = 12.sp
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(end = 13.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
                     text = barang.harga,
                     fontSize = 12.sp
                 )
-            }
-            Column(
-                modifier = Modifier.padding(start = 65.dp, top = 32.dp)
-            ) {
                 Text(
-                    text = barang.stok,
+                    text = "Stok: " + barang.stok,
                     fontSize = 12.sp
                 )
             }

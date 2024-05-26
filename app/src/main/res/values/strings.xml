@@ -2,7 +2,7 @@
     <string name="app_name">T-Grocery</string>
     <string name="logo">Logo</string>
     <string name="selamat_datang">Selamat datang di T-Grocery!</string>
-    <string name="deskripsi">Aplikasi yang buat hidup pemilik market lebih nyaman.\nSiap bantu usahamu, kapan pun, di mana pun.</string>
+    <string name="deskripsi">Aplikasi yang mempermudah pemilik market.\nSiap bantu usahamu, kapan pun, di mana pun.</string>
     <string name="btn_masuk">Masuk</string>
     <string name="persetujuan">Dengan masuk atau mendaftar, kamu menyetujui Ketentuan layanan dan Kebijakan privasi.</string>
     <string name="btn_daftar">Belum ada akun? Daftar dulu</string>
@@ -43,5 +43,8 @@
     <string name="invalid">Nama, deskripsi, harga dan stok produk tidak boleh kosong</string>
     <string name="upload_foto">Tambah Foto</string>
     <string name="opsi_lainnya">Opsi lainnya</string>
-    <string name="hapus">Hapus</string>
+    <string name="hapus">Hapus Produk</string>
+    <string name="pesan_hapus">Hapus Produk ini?</string>
+    <string name="tombol_hapus">Hapus</string>
+    <string name="tombol_batal">Batal</string>
 </resources>

@@ -62,7 +62,7 @@ fun ScreenContent(modifier: Modifier, navController: NavHostController) {
     Column (
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 30.dp, vertical = 45.dp)
+            .padding(horizontal = 20.dp, vertical = 45.dp)
     ) {
         Image(
             painter = painterResource(id = R.drawable.landing_page),
@@ -76,7 +76,7 @@ fun ScreenContent(modifier: Modifier, navController: NavHostController) {
             Text(
                 text = stringResource(id = R.string.selamat_datang),
                 style = TextStyle(
-                    fontSize = 23.sp,
+                    fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 ),
                 modifier = Modifier
@@ -84,15 +84,14 @@ fun ScreenContent(modifier: Modifier, navController: NavHostController) {
             )
             Text(
                 text = stringResource(id = R.string.deskripsi),
-                style = TextStyle(fontSize = 14.sp),
+                style = TextStyle(fontSize = 15.sp),
                 modifier = Modifier
-                    .padding(top = 15.dp)
-                    .fillMaxWidth(),
+                    .padding(top = 15.dp),
                 textAlign = TextAlign.Center
             )
             Button(
                 onClick = { navController.navigate(Screen.Login.route) },
-                modifier = Modifier.padding(top = 43.dp).height(45.dp).fillMaxWidth(),
+                modifier = Modifier.padding(top = 43.dp).height(50.dp).fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB11116))
             )
             {
@@ -105,7 +104,7 @@ fun ScreenContent(modifier: Modifier, navController: NavHostController) {
             }
             Button(
                 onClick = { navController.navigate(Screen.Register.route) },
-                modifier = Modifier.padding(top = 10.dp).height(45.dp).fillMaxWidth(),
+                modifier = Modifier.padding(top = 10.dp).height(50.dp).fillMaxWidth(),
                 border = BorderStroke(width = 1.dp, color = Color(0xFFB11116)),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFFFFF)),
             )
@@ -118,7 +117,7 @@ fun ScreenContent(modifier: Modifier, navController: NavHostController) {
             }
             Text(
                 text = stringResource(id = R.string.persetujuan),
-                style = TextStyle(fontSize = 12.sp),
+                style = TextStyle(fontSize = 13.sp),
                 modifier = Modifier.padding(top = 26.dp),
             )
         }
